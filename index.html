@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tokyo Disneyland VIP Concierge Planner</title>
+<style>
+:root{
+  --bg1:#dbeafe;
+  --bg2:#fce7f3;
+  --bg3:#fff7ed;
+  --card:rgba(255,255,255,.94);
+  --text:#172554;
+  --muted:#64748b;
+  --blue:#2563eb;
+  --indigo:#4f46e5;
+  --pink:#db2777;
+  --green:#059669;
+  --amber:#d97706;
+  --red:#dc2626;
+  --purple:#7c3aed;
+  --gold:#f59e0b;
+  --teal:#0f766e;
+  --radius:24px;
+  --shadow:0 18px 42px rgba(37,99,235,.10);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(96,165,250,.28), transparent 30%),
+    radial-gradient(circle at top right, rgba(244,114,182,.22), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(245,158,11,.14), transparent 25%),
+    linear-gradient(180deg,var(--bg1) 0%, #ffffff 42%, var(--bg2) 76%, var(--bg3) 100%);
+}
+.wrap{max-width:1360px;margin:auto;padding:18px}
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:var(--shadow);
+  margin-bottom:14px;
+  border:1px solid rgba(255,255,255,.78);
+  backdrop-filter:blur(10px);
+}
+.hero{
+  background:linear-gradient(135deg,#2563eb 0%, #7c3aed 45%, #db2777 100%);
+  color:#fff;
+  border-radius:32px;
+  padding:26px;
+  position:relative;
+  overflow:hidden;
+}
+.hero:before,.hero:after,.castle-glow{
+  content:"";
+  position:absolute;
+  border-radius:999px;
+  background:rgba(255,255,255,.11);
+}
+.hero:before{width:220px;height:220px;right:-40px;top:-34px}
+.hero:after{width:150px;height:150px;left:-16px;bottom:-28px}
+.castle-glow{width:120px;height:120px;right:180px;bottom:-32px}
+.hero-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;position:relative;z-index:1}
+h1{margin:0 0 8px 0;font-size:36px;line-height:1.02;letter-spacing:-.03em}
+.hero-sub{font-size:14px;opacity:.96;max-width:860px;line-height:1.5}
+.hero-badge{background:rgba(255,255,255,.18);padding:10px 14px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.hero-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;position:relative;z-index:1}
+.hero-chip{background:rgba(255,255,255,.16);padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700}
+.small{font-size:13px;color:var(--muted)}
+.grid{display:grid;gap:12px}
+.grid-2{grid-template-columns:1fr 1fr}
+.grid-3{grid-template-columns:1fr 1fr 1fr}
+.grid-4{grid-template-columns:1fr 1fr 1fr 1fr}
+button,select,input,textarea{
+  width:100%;padding:12px 14px;border-radius:14px;border:1px solid rgba(148,163,184,.25);font:inherit
+}
+button{font-weight:800;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease}
+button:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(37,99,235,.12)}
+.primary{background:linear-gradient(135deg,var(--blue),var(--indigo));color:#fff;border:none}
+.secondary{background:#fff}
+.ghost{background:rgba(255,255,255,.72)}
+input,select,textarea{background:rgba(255,255,255,.97);color:var(--text)}
+textarea{min-height:92px;resize:vertical}
+.metric{background:rgba(255,255,255,.76);padding:14px;border-radius:18px;border:1px solid rgba(148,163,184,.14)}
+.metric-label{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:800;margin-bottom:6px}
+.metric-value{font-size:28px;font-weight:900;line-height:1.05}
+.metric-sub{font-size:13px;color:var(--muted);margin-top:4px}
+.kid-card{background:linear-gradient(180deg,rgba(255,255,255,.97),rgba(239,246,255,.96));padding:14px;border-radius:18px;border:1px solid rgba(148,163,184,.15)}
+.kid-name{font-size:20px;font-weight:900}
+.kid-age{font-size:12px;color:var(--muted);text-transform:uppercase;font-weight:800;letter-spacing:.05em;margin-bottom:4px}
+.kid-note{font-size:13px;color:var(--muted);line-height:1.45;margin-top:6px}
+.bar-shell{height:14px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:10px}
+.bar-fill{height:100%;width:0%;background:linear-gradient(90deg,#2563eb,#7c3aed,#db2777);transition:width .2s ease}
+.badge{display:inline-block;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800;margin:4px 6px 0 0}
+.b-green{background:#d1fae5;color:#065f46}.b-red{background:#fee2e2;color:#991b1b}.b-blue{background:#dbeafe;color:#1e40af}.b-amber{background:#fef3c7;color:#92400e}.b-pink{background:#fce7f3;color:#9d174d}.b-purple{background:#ede9fe;color:#6d28d9}.b-slate{background:#e2e8f0;color:#334155}.b-gold{background:#fef3c7;color:#b45309}.b-teal{background:#ccfbf1;color:#115e59}
+.toolbar{display:grid;grid-template-columns:1.2fr .8fr .8fr .8fr auto auto;gap:10px}
+.action-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-top:10px}
+.item{
+  padding:14px 0;
+  border-top:1px solid rgba(226,232,240,.95);
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:12px;
+  align-items:start;
+}
+.item:first-child{border-top:none}
+.item.done .item-title{text-decoration:line-through;color:#94a3b8}
+.item.starred{background:linear-gradient(135deg,rgba(255,251,235,.9),rgba(255,255,255,0));border-radius:18px;padding-left:10px;padding-right:10px}
+.item input[type="checkbox"]{width:20px;height:20px;margin-top:4px;accent-color:var(--green)}
+.item-title{font-weight:900;font-size:16px}
+.item-copy{font-size:13px;color:var(--muted);line-height:1.45;margin-top:6px}
+.item-meta{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:10px}
+.meta{padding:9px 10px;border-radius:14px;background:#f8fafc;border:1px solid rgba(226,232,240,.9)}
+.meta-label{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:800;margin-bottom:4px}
+.meta-value{font-size:12px;font-weight:800;line-height:1.3}
+.list-grid{display:grid;grid-template-columns:1.45fr .95fr;gap:14px}
+.section-title{margin:0 0 12px 0;font-size:20px;font-weight:900;letter-spacing:-.02em}
+.tip{padding:12px 0;border-top:1px solid rgba(226,232,240,.95);font-size:14px;line-height:1.48}.tip:first-child{border-top:none}.tip strong{display:block;margin-bottom:2px}
+.highlight{background:linear-gradient(135deg,#eff6ff,#faf5ff);border:1px solid rgba(99,102,241,.15)}
+.next-box{background:linear-gradient(135deg,#eff6ff,#fdf2f8);border:1px solid rgba(99,102,241,.14)}
+.mini-list{display:grid;gap:8px}
+.mini-item{padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.84);border:1px solid rgba(226,232,240,.95);font-size:14px}
+.footer-note{font-size:12px;color:var(--muted);line-height:1.5;margin-top:10px}
+.route-card{background:linear-gradient(135deg,#eff6ff,#fdf2f8)}
+.route-step{padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.88);border:1px solid rgba(226,232,240,.95);margin-top:8px}
+.toggle-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.toggle-tile{padding:14px;border-radius:18px;border:1px solid rgba(226,232,240,.95);background:rgba(255,255,255,.82)}
+.toggle-title{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:800;margin-bottom:8px}
+.wait-grid{display:grid;grid-template-columns:1fr 110px;gap:8px;margin-top:8px}
+.wait-input{padding:10px 12px}
+.pill-line{display:flex;flex-wrap:wrap;gap:8px}
+.icon-btn{padding:10px 12px;min-width:72px}
+@media (max-width:1080px){.grid-4,.grid-3,.grid-2,.toolbar,.list-grid,.item-meta,.action-grid,.toggle-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero card">
+    <div class="castle-glow"></div>
+    <div class="hero-top">
+      <div>
+        <h1>Tokyo Disneyland VIP Concierge Planner ✨</h1>
+        <div class="hero-sub">A high-design Disney-style live planner for Zoe, Miles, and Sofia that makes real-time recommendations based on time of day, wait times, energy mode, scary ride filtering, what you have finished, and where you are in the park.</div>
+      </div>
+      <div class="hero-badge">March 24 Family Mode</div>
+    </div>
+    <div class="hero-chips">
+      <div class="hero-chip">Zoe decision engine</div>
+      <div class="hero-chip">Miles-friendly rhythm</div>
+      <div class="hero-chip">Sofia baby logic</div>
+      <div class="hero-chip">Characters + rides + food + shows</div>
+      <div class="hero-chip">Meltdown mode</div>
+      <div class="hero-chip">Scary filter</div>
+      <div class="hero-chip">Wait-time routing</div>
+    </div>
+  </div>
+
+  <div class="card grid grid-3">
+    <div class="metric">
+      <div class="metric-label">Progress</div>
+      <div class="metric-value" id="progressPct">0%</div>
+      <div class="metric-sub" id="progressText">0 completed</div>
+      <div class="bar-shell"><div class="bar-fill" id="barFill"></div></div>
+    </div>
+    <div class="metric next-box">
+      <div class="metric-label">Next Best Move</div>
+      <div class="metric-value" style="font-size:22px" id="nextMove">—</div>
+      <div class="metric-sub" id="nextReason">Follow the planner and it will update as you check things off.</div>
+    </div>
+    <div class="metric highlight">
+      <div class="metric-label">Current Time</div>
+      <div class="metric-value" style="font-size:24px" id="timeNow">—</div>
+      <div class="metric-sub" id="timePhase">Morning headliner mode</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 class="section-title">Your family decision team</h2>
+    <div class="grid grid-3">
+      <div class="kid-card">
+        <div class="kid-age">Age 6</div>
+        <div class="kid-name">Zoe</div>
+        <div class="kid-note">Primary decider for bigger-kid magic. She gets the special spotlight in the recommendation engine.</div>
+      </div>
+      <div class="kid-card">
+        <div class="kid-age">Age 3</div>
+        <div class="kid-name">Miles</div>
+        <div class="kid-note">Best fit for gentle fantasy rides, parade moments, characters, trains, boats, and easier park rhythm.</div>
+      </div>
+      <div class="kid-card">
+        <div class="kid-age">9 months</div>
+        <div class="kid-name">Sofia</div>
+        <div class="kid-note">Use Baby OK wins first and Parent Split logic when a bonus ride is worth it.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 class="section-title">VIP controls</h2>
+    <div class="toolbar">
+      <input id="searchInput" type="text" placeholder="Search rides, meets, food, notes..." />
+      <select id="typeFilter">
+        <option value="all">All types</option>
+        <option value="ride">Rides</option>
+        <option value="meet">Character meets</option>
+        <option value="show">Shows</option>
+        <option value="food">Food</option>
+      </select>
+      <select id="babyFilter">
+        <option value="all">All baby status</option>
+        <option value="allride">Baby OK</option>
+        <option value="split">Parent split</option>
+      </select>
+      <select id="priorityFilter">
+        <option value="all">All priority</option>
+        <option value="must">Must do</option>
+        <option value="bonus">Bonus</option>
+        <option value="long">Long wait</option>
+      </select>
+      <button class="secondary" id="resetChecksBtn">Reset checks</button>
+      <button class="primary" id="exportBtn">Export</button>
+    </div>
+    <div class="toggle-row" style="margin-top:12px;">
+      <div class="toggle-tile">
+        <div class="toggle-title">Scary filter</div>
+        <label><input type="checkbox" id="hideScaryToggle" /> Hide maybe-scary items for Zoe and Miles</label>
+      </div>
+      <div class="toggle-tile">
+        <div class="toggle-title">Energy mode</div>
+        <select id="energyMode">
+          <option value="normal">Normal</option>
+          <option value="tired">Kids tired</option>
+          <option value="meltdown">Baby needs calm</option>
+        </select>
+      </div>
+      <div class="toggle-tile">
+        <div class="toggle-title">Current zone</div>
+        <select id="zoneMode">
+          <option value="Anywhere">Anywhere</option>
+          <option value="Fantasyland">Fantasyland</option>
+          <option value="Tomorrowland">Tomorrowland</option>
+          <option value="Adventureland">Adventureland</option>
+          <option value="Westernland">Westernland</option>
+          <option value="Toontown">Toontown</option>
+          <option value="Parade route">Parade route</option>
+        </select>
+      </div>
+    </div>
+    <div class="footer-note">The planner remembers progress on this device. Scary filter, energy mode, and wait times are all factored into the next recommendation.</div>
+  </div>
+
+  <div class="list-grid">
+    <div class="grid">
+      <div class="card">
+        <h2 class="section-title">Live checklist + wait times</h2>
+        <div id="list"></div>
+      </div>
+      <div class="card route-card">
+        <h2 class="section-title">Suggested route</h2>
+        <div class="route-step" id="routeStep1">1. Start with your top headliner.</div>
+        <div class="route-step" id="routeStep2">2. Use a lower-stress move after something big.</div>
+        <div class="route-step" id="routeStep3">3. Protect parade and night anchor timing.</div>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h2 class="section-title">Family strategy</h2>
+        <div class="tip"><strong>Zoe priority stack:</strong> Beauty and the Beast, Pooh, Monsters, parade, and one special character meet.</div>
+        <div class="tip"><strong>Miles sweet spot:</strong> Small World, Jungle Cruise, PhilharMagic, and parade rhythm.</div>
+        <div class="tip"><strong>Sofia logic:</strong> Look for Baby OK badges first; Parent Split is mostly for bonuses like Baymax.</div>
+        <div class="tip"><strong>Stitch call:</strong> Keep Stitch as a recommended optional show if Zoe or Miles wants a Lilo &amp; Stitch moment.</div>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Food hits</h2>
+        <div class="mini-list">
+          <div class="mini-item">🥨 Soft Pretzel at Tomorrowland Terrace</div>
+          <div class="mini-item">🍛 Hungry Bear Curry</div>
+          <div class="mini-item">🍿 Tokyo popcorn stop</div>
+          <div class="mini-item">🍦 Ice cream / mochi treat</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Shows + characters</h2>
+        <div class="mini-list">
+          <div class="mini-item">🎭 Jamboree Mickey</div>
+          <div class="mini-item">🎉 3:00 PM Harmony in Color</div>
+          <div class="mini-item">🌟 7:45 PM Electrical Parade</div>
+          <div class="mini-item">📸 Mickey, Minnie, Pooh &amp; friends</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="section-title">Export box</h2>
+        <textarea id="exportBox" placeholder="Exported planner data will appear here."></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = "tokyo-disneyland-concierge-v6";
+const SETTINGS_KEY = "tokyo-disneyland-concierge-settings-v6";
+
+const defaultItems = [
+  {name:"Enchanted Tale of Beauty and the Beast",type:"ride",must:true,long:true,baby:"split",kidLead:"Zoe",zone:"Fantasyland",note:"Highest-value family headliner.",scary:false,waitMinutes:50,done:false,starred:false},
+  {name:"Pooh's Hunny Hunt",type:"ride",must:true,long:true,baby:"split",kidLead:"Zoe + Miles",zone:"Fantasyland",note:"Broadest family hit after Beauty and the Beast.",scary:false,waitMinutes:40,done:false,starred:false},
+  {name:"Monsters, Inc. Ride & Go Seek!",type:"ride",must:true,long:true,baby:"split",kidLead:"Zoe",zone:"Tomorrowland",note:"Strong interactive win for Zoe.",scary:false,waitMinutes:45,done:false,starred:false},
+  {name:"it's a small world",type:"ride",must:true,long:false,baby:"allride",kidLead:"Miles + Sofia",zone:"Fantasyland",note:"Best low-stress reset with all three kids together.",scary:false,waitMinutes:20,done:false,starred:false},
+  {name:"Jungle Cruise",type:"ride",must:false,long:false,baby:"allride",kidLead:"Miles + Sofia",zone:"Adventureland",note:"Excellent easy family ride.",scary:false,waitMinutes:20,done:false,starred:false},
+  {name:"Mickey's PhilharMagic",type:"show",must:false,long:false,baby:"allride",kidLead:"Miles + Sofia",zone:"Fantasyland",note:"Great indoor seated recharge.",scary:false,waitMinutes:10,done:false,starred:false},
+  {name:"The Happy Ride with Baymax",type:"ride",must:false,bonus:true,long:true,baby:"split",kidLead:"Zoe",zone:"Tomorrowland",note:"Recommended Tokyo-only bonus if timing works.",scary:false,waitMinutes:55,done:false,starred:false},
+  {name:"Stitch Presents 'Aloha E Komo Mai!'",type:"show",must:false,bonus:true,long:false,baby:"split",kidLead:"Zoe + Miles",zone:"Adventureland",note:"Recommended optional Stitch stop.",scary:false,waitMinutes:10,done:false,starred:false},
+  {name:"Meet Mickey",type:"meet",must:false,long:false,baby:"allride",kidLead:"Zoe + Miles + Sofia",zone:"World Bazaar",note:"High-joy family photo moment.",scary:false,waitMinutes:25,done:false,starred:false},
+  {name:"Meet Minnie",type:"meet",must:false,long:false,baby:"allride",kidLead:"Zoe + Miles + Sofia",zone:"Toontown",note:"Great meet if you are already in Toontown.",scary:false,waitMinutes:25,done:false,starred:false},
+  {name:"Meet Pooh & Friends",type:"meet",must:false,long:false,baby:"allride",kidLead:"Zoe + Miles + Sofia",zone:"Fantasyland",note:"Very strong kid appeal if available.",scary:false,waitMinutes:20,done:false,starred:false},
+  {name:"Harmony in Color Parade",type:"show",must:true,long:false,baby:"allride",kidLead:"Zoe + Miles + Sofia",zone:"Parade route",note:"3:00 PM daytime parade anchor.",scary:false,waitMinutes:20,done:false,starred:false},
+  {name:"Electrical Parade Dreamlights",type:"show",must:true,long:false,baby:"allride",kidLead:"Zoe + Miles + Sofia",zone:"Parade route",note:"7:45 PM must-do night anchor.",scary:false,waitMinutes:30,done:false,starred:false},
+  {name:"Soft Pretzel Stop",type:"food",must:false,bonus:true,long:false,baby:"allride",kidLead:"Zoe + Miles",zone:"Tomorrowland",note:"Make this a real snack mission.",scary:false,waitMinutes:5,done:false,starred:false},
+  {name:"Hungry Bear Curry",type:"food",must:false,long:false,baby:"allride",kidLead:"Whole family",zone:"Westernland",note:"Good meal anchor.",scary:false,waitMinutes:10,done:false,starred:false},
+  {name:"Tokyo Popcorn Stop",type:"food",must:false,bonus:true,long:false,baby:"allride",kidLead:"Zoe + Miles",zone:"Anywhere",note:"Easy fun Disney snack win.",scary:false,waitMinutes:8,done:false,starred:false},
+  {name:"Haunted Mansion",type:"ride",must:false,long:false,baby:"split",kidLead:"Zoe",zone:"Fantasyland",note:"Flagged as maybe scary for your family.",scary:true,waitMinutes:20,done:false,starred:false},
+  {name:"Pirates of the Caribbean",type:"ride",must:false,long:false,baby:"split",kidLead:"Zoe",zone:"Adventureland",note:"Some darker scenes. Use judgment.",scary:true,waitMinutes:15,done:false,starred:false}
+];
+
+const defaultSettings = { hideScary:false, energyMode:"normal", zoneMode:"Anywhere" };
+
+let items = loadItems();
+let settings = loadSettings();
+
+const listEl = document.getElementById("list");
+const timeNowEl = document.getElementById("timeNow");
+const nextMoveEl = document.getElementById("nextMove");
+const nextReasonEl = document.getElementById("nextReason");
+const progressPctEl = document.getElementById("progressPct");
+const progressTextEl = document.getElementById("progressText");
+const barFillEl = document.getElementById("barFill");
+const timePhaseEl = document.getElementById("timePhase");
+const routeStep1El = document.getElementById("routeStep1");
+const routeStep2El = document.getElementById("routeStep2");
+const routeStep3El = document.getElementById("routeStep3");
+const searchInput = document.getElementById("searchInput");
+const typeFilter = document.getElementById("typeFilter");
+const babyFilter = document.getElementById("babyFilter");
+const priorityFilter = document.getElementById("priorityFilter");
+const resetChecksBtn = document.getElementById("resetChecksBtn");
+const exportBtn = document.getElementById("exportBtn");
+const exportBox = document.getElementById("exportBox");
+const hideScaryToggle = document.getElementById("hideScaryToggle");
+const energyMode = document.getElementById("energyMode");
+const zoneMode = document.getElementById("zoneMode");
+
+function cloneDefaults(){
+  return JSON.parse(JSON.stringify(defaultItems));
+}
+function loadItems(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : cloneDefaults();
+  }catch(e){ return cloneDefaults(); }
+}
+function saveItems(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); }
+function loadSettings(){
+  try{
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    return raw ? {...defaultSettings, ...JSON.parse(raw)} : {...defaultSettings};
+  }catch(e){ return {...defaultSettings}; }
+}
+function saveSettings(){ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
+function badge(text, cls){ return `<span class="badge ${cls}">${text}</span>`; }
+function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
+function getTimePhase(hour){
+  if(hour < 12) return "Morning headliner mode";
+  if(hour < 15) return "Midday reset + characters";
+  if(hour < 18) return "Afternoon flexible mode";
+  return "Night parade mode";
+}
+function scoreItem(i, hour){
+  if(i.done) return -9999;
+  let s = 0;
+  if(i.starred) s += 35;
+  if(i.must) s += 30;
+  if(i.bonus) s += 8;
+  if(i.type === "meet") s += hour >= 12 && hour < 15 ? 24 : -4;
+  if(i.type === "food") s += hour >= 14 && hour < 18 ? 18 : -8;
+  if(i.type === "show" && i.name.includes("Electrical Parade")) s += hour >= 18 ? 45 : -10;
+  if(i.type === "show" && i.name.includes("Harmony")) s += hour >= 13 && hour < 16 ? 30 : -8;
+  if(i.type === "ride" && i.long && hour < 12) s += 28;
+  if(i.baby === "allride") s += settings.energyMode === "meltdown" ? 28 : settings.energyMode === "tired" ? 14 : 0;
+  if(i.baby === "split") s += settings.energyMode === "meltdown" ? -30 : 0;
+  if(settings.hideScary && i.scary) s -= 1000;
+  if(settings.zoneMode !== "Anywhere"){
+    if(i.zone === settings.zoneMode) s += 16;
+    else if(i.zone === "Anywhere") s += 8;
+    else s -= 10;
+  }
+  const waitPenalty = Math.min(Number(i.waitMinutes || 0), 120) / 3;
+  if(hour < 12 && i.long) s -= waitPenalty * 0.6;
+  else s -= waitPenalty;
+  return s;
+}
+function getSortedRemaining(){
+  const hour = new Date().getHours();
+  return [...items].filter(i => !i.done).sort((a,b) => scoreItem(b,hour) - scoreItem(a,hour));
+}
+function getNextDecision(){
+  const remaining = getSortedRemaining();
+  const best = remaining[0];
+  if(!best){
+    return {title:"You crushed it ✨", reason:"Everything in the planner is complete. Time for spontaneous Disney joy."};
+  }
+  const moodLine = settings.energyMode === "meltdown"
+    ? "Baby-calm mode is active, so the engine is leaning hard toward low-stress all-family wins."
+    : settings.energyMode === "tired"
+    ? "Kids-tired mode is active, so the engine is favoring easier rhythm and shorter waits."
+    : "Normal mode is active, so the engine is balancing priority, wait, and location.";
+  let opener = "Best move now:";
+  if(best.kidLead.includes("Zoe")) opener = `Zoe says: ${best.name}`;
+  else if(best.kidLead.includes("Miles")) opener = `Miles move: ${best.name}`;
+  else if(best.kidLead.includes("Sofia")) opener = `Sofia-friendly play: ${best.name}`;
+  else opener = `Family move: ${best.name}`;
+  return {
+    title: opener,
+    reason: `${best.zone} • ${best.waitMinutes || 0} min est. • ${best.baby === 'allride' ? 'Everybody rides' : 'Parent split'}. ${moodLine}`
+  };
+}
+function filteredItems(){
+  const q = searchInput.value.trim().toLowerCase();
+  return items.filter(i => {
+    const matchesQuery = !q || [i.name, i.type, i.zone, i.note, i.kidLead].join(" ").toLowerCase().includes(q);
+    const matchesType = typeFilter.value === "all" || i.type === typeFilter.value;
+    const matchesBaby = babyFilter.value === "all" || i.baby === babyFilter.value;
+    const matchesPriority = priorityFilter.value === "all" || (priorityFilter.value === "must" && i.must) || (priorityFilter.value === "bonus" && i.bonus) || (priorityFilter.value === "long" && i.long);
+    const matchesScary = !settings.hideScary || !i.scary;
+    return matchesQuery && matchesType && matchesBaby && matchesPriority && matchesScary;
+  }).sort((a,b) => scoreItem(b, new Date().getHours()) - scoreItem(a, new Date().getHours()));
+}
+function updateRoute(){
+  const remaining = getSortedRemaining().slice(0,3);
+  routeStep1El.textContent = remaining[0] ? `1. Go to ${remaining[0].name} in ${remaining[0].zone}.` : "1. You finished everything.";
+  routeStep2El.textContent = remaining[1] ? `2. Then do ${remaining[1].name} as the next best follow-up.` : "2. Enjoy a snack or spontaneous Disney moment.";
+  routeStep3El.textContent = remaining[2] ? `3. Keep ${remaining[2].name} as your next backup move.` : "3. Protect parade and night magic timing.";
+}
+function render(){
+  hideScaryToggle.checked = settings.hideScary;
+  energyMode.value = settings.energyMode;
+  zoneMode.value = settings.zoneMode;
+  const now = new Date();
+  timeNowEl.textContent = now.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+  timePhaseEl.textContent = getTimePhase(now.getHours());
+  const doneCount = items.filter(i => i.done).length;
+  const total = items.length;
+  const pct = total ? Math.round(doneCount / total * 100) : 0;
+  progressPctEl.textContent = `${pct}%`;
+  progressTextEl.textContent = `${doneCount} of ${total} completed`;
+  barFillEl.style.width = `${pct}%`;
+  const decision = getNextDecision();
+  nextMoveEl.textContent = decision.title;
+  nextReasonEl.textContent = decision.reason;
+  updateRoute();
+  const list = filteredItems();
+  listEl.innerHTML = list.map(i => `
+    <div class="item ${i.done ? 'done' : ''} ${i.starred ? 'starred' : ''}">
+      <input type="checkbox" ${i.done ? 'checked' : ''} onchange="toggleItem('${encodeURIComponent(i.name)}')" />
+      <div>
+        <div class="item-title">${escapeHtml(i.name)}</div>
+        <div class="pill-line">
+          ${i.must ? badge('Must Do','b-blue') : ''}
+          ${i.bonus ? badge('Bonus','b-pink') : ''}
+          ${i.long ? badge('Long Wait','b-red') : ''}
+          ${i.baby === 'allride' ? badge('Baby OK','b-green') : badge('Parent Split','b-amber')}
+          ${i.type === 'meet' ? badge('Character Meet','b-purple') : ''}
+          ${i.type === 'food' ? badge('Food','b-slate') : ''}
+          ${i.type === 'show' ? badge('Show','b-purple') : ''}
+          ${i.scary ? badge('Maybe Scary','b-gold') : ''}
+          ${i.starred ? badge('Starred','b-teal') : ''}
+        </div>
+        <div class="item-copy">${escapeHtml(i.note)}</div>
+        <div class="item-meta">
+          <div class="meta"><div class="meta-label">Lead Decider</div><div class="meta-value">${escapeHtml(i.kidLead)}</div></div>
+          <div class="meta"><div class="meta-label">Zone</div><div class="meta-value">${escapeHtml(i.zone)}</div></div>
+          <div class="meta"><div class="meta-label">Family Mode</div><div class="meta-value">${i.baby === 'allride' ? 'Everybody rides' : 'One parent with Sofia'}</div></div>
+          <div class="meta"><div class="meta-label">Wait</div><div class="meta-value">${Number(i.waitMinutes || 0)} min</div></div>
+        </div>
+        <div class="wait-grid">
+          <input class="wait-input" type="number" min="0" max="240" value="${Number(i.waitMinutes || 0)}" onchange="updateWait('${encodeURIComponent(i.name)}', this.value)" />
+          <button class="ghost" onclick="bumpWait('${encodeURIComponent(i.name)}', 5)">+5 min</button>
+        </div>
+      </div>
+      <div class="grid" style="width:88px;">
+        <button class="secondary icon-btn" onclick="toggleStar('${encodeURIComponent(i.name)}')">${i.starred ? '★' : '☆'} Star</button>
+      </div>
+    </div>
+  `).join('');
+  exportBox.value = JSON.stringify({items, settings}, null, 2);
+  saveItems();
+  saveSettings();
+}
+window.toggleItem = function(encodedName){
+  const name = decodeURIComponent(encodedName);
+  items = items.map(i => i.name === name ? {...i, done: !i.done} : i);
+  render();
+}
+window.toggleStar = function(encodedName){
+  const name = decodeURIComponent(encodedName);
+  items = items.map(i => i.name === name ? {...i, starred: !i.starred} : i);
+  render();
+}
+window.updateWait = function(encodedName, value){
+  const name = decodeURIComponent(encodedName);
+  const num = Math.max(0, Math.min(240, Number(value || 0)));
+  items = items.map(i => i.name === name ? {...i, waitMinutes: num} : i);
+  render();
+}
+window.bumpWait = function(encodedName, add){
+  const name = decodeURIComponent(encodedName);
+  items = items.map(i => i.name === name ? {...i, waitMinutes: Math.max(0, Math.min(240, Number(i.waitMinutes || 0) + add))} : i);
+  render();
+}
+resetChecksBtn.addEventListener('click', () => {
+  items = items.map(i => ({...i, done:false, starred:false}));
+  render();
+});
+exportBtn.addEventListener('click', async () => {
+  const text = JSON.stringify({items, settings}, null, 2);
+  exportBox.value = text;
+  try{
+    await navigator.clipboard.writeText(text);
+    nextMoveEl.textContent = 'Planner exported';
+    nextReasonEl.textContent = 'The planner data was copied to your clipboard.';
+  }catch(e){
+    nextMoveEl.textContent = 'Planner export ready';
+    nextReasonEl.textContent = 'Copy the export box manually on this browser.';
+  }
+});
+hideScaryToggle.addEventListener('change', e => { settings.hideScary = e.target.checked; render(); });
+energyMode.addEventListener('change', e => { settings.energyMode = e.target.value; render(); });
+zoneMode.addEventListener('change', e => { settings.zoneMode = e.target.value; render(); });
+[searchInput, typeFilter, babyFilter, priorityFilter].forEach(el => {
+  el.addEventListener(el.tagName === 'INPUT' ? 'input' : 'change', render);
+});
+setInterval(() => {
+  timeNowEl.textContent = new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+  timePhaseEl.textContent = getTimePhase(new Date().getHours());
+  const decision = getNextDecision();
+  nextMoveEl.textContent = decision.title;
+  nextReasonEl.textContent = decision.reason;
+}, 30000);
+render();
+</script>
+</body>
+</html>
