@@ -270,12 +270,6 @@ html,body{font-family:'Nunito',sans-serif;background:var(--dark);color:#fff;over
   <div class="sec">✅ Today's Checklist</div>
   <p class="intro">Tap ⭐ on ANY ride, show, or snack to add it here. Check ✓ as you go!</p>
 
-  <!-- Always-on missions -->
-  <div class="cl-section">
-    <div class="cl-header">📌 Always On <span class="cl-count" id="mission-count">0/9</span></div>
-    <div id="cl-missions"></div>
-  </div>
-
   <!-- Wanted rides -->
   <div class="cl-section">
     <div class="cl-header">🎢 Rides We Want <span class="cl-count" id="ride-count">0</span></div>
@@ -294,6 +288,12 @@ html,body{font-family:'Nunito',sans-serif;background:var(--dark);color:#fff;over
     <div id="cl-snacks"><div class="cl-empty">Tap ⭐ on any snack to add it here!</div></div>
   </div>
 
+  <!-- Always-on missions — always at the bottom -->
+  <div class="cl-section">
+    <div class="cl-header">📌 Always On <span class="cl-count" id="mission-count">0/7</span></div>
+    <div id="cl-missions"></div>
+  </div>
+
   <div class="sec">📝 Zoe's Royal Notes</div>
   <div class="nbox"><div class="nlbl">Queen Zoe's Commands 👑</div>
     <textarea class="nta" id="n-zoe" placeholder="Write your royal orders here, Zoe!" oninput="sn('n-zoe')"></textarea></div>
@@ -302,8 +302,12 @@ html,body{font-family:'Nunito',sans-serif;background:var(--dark);color:#fff;over
 <!-- ═══ SCHEDULE ═══ -->
 <div class="tab" id="tab-sched">
   <div class="sec">🗓️ <span class="sp">Today's Royal Itinerary</span></div>
+  <div class="card" style="background:rgba(255,107,53,.12);border-color:rgba(255,107,53,.5);margin-top:4px;">
+    <div class="ct" style="color:var(--orange);font-size:.9rem;">⚠️ SAMPLE SCHEDULE — FOR TALKING POINTS ONLY</div>
+    <div class="cd" style="margin-top:4px;">Use this as a starting framework for the day, not a strict plan. Times will shift, Zoe will take detours, and that's the magic! Adjust freely as the day unfolds.</div>
+  </div>
   <p class="intro">Park opens 9:00am — arrive right at opening! Confirm hours in TDR app the morning of.</p>
-  <div class="card" style="background:rgba(255,215,0,.07);border-color:rgba(255,215,0,.25);margin-top:4px;">
+  <div class="card" style="background:rgba(255,215,0,.07);border-color:rgba(255,215,0,.25);">
     <div class="ct" style="color:var(--gold);">🌅 Park opens 9:00am — be at the gates at opening!</div>
     <div class="cd" style="margin-top:3px;">Lines form before gates open. Have your tickets ready in the TDR app. Morning = your superpower window before crowds build!</div>
   </div>
@@ -431,107 +435,127 @@ html,body{font-family:'Nunito',sans-serif;background:var(--dark);color:#fff;over
 
 // Always-on missions (not starred — always on checklist)
 const MISSIONS=[
-  {id:'m1',emoji:'🎂',name:"Get Miles's Birthday Button!",meta:'Tell first Cast Member inside — free button, every Cast Member wishes him Happy Birthday all day!'},
-  {id:'m2',emoji:'📱',name:'TDR App: Grab Priority Pass + DPA',meta:"Before riding anything: Priority Pass for Pooh's Hunny Hunt + DPA for Beauty & the Beast"},
-  {id:'m3',emoji:'📸',name:'Family Photo at Cinderella Castle',meta:'Do this early before crowds arrive — empty plaza = magic photo!'},
+  {id:'m1',emoji:'🎂',name:"Get Miles's Birthday Button!",meta:'Tell first Cast Member inside → free birthday button → Happy Birthday from everyone all day! 🎈'},
+  {id:'m2',emoji:'📱',name:'TDR App: Grab Priority Pass + DPA',meta:"BEFORE any rides: Priority Pass for Pooh's Hunny Hunt + DPA for Beauty & the Beast"},
+  {id:'m3',emoji:'📸',name:'Family Photo at Cinderella Castle',meta:'Early morning — empty plaza, magic photo for the whole crew!'},
   {id:'m4',emoji:'🌈',name:'Watch Disney Harmony in Color Parade',meta:'Once mid-afternoon — check TDR app for exact time, claim spot 20 min early!'},
-  {id:'m5',emoji:'🕺',name:"Jamboree Mickey! Let's Dance",meta:'Interactive dance show — Zoe and Miles dance WITH Mickey! Check TDR app for times.'},
+  {id:'m5',emoji:'🕺',name:"Jamboree Mickey! Let's Dance",meta:'Zoe and Miles dance WITH Mickey at Castle Forecourt! Check TDR app for times.'},
   {id:'m6',emoji:'👸',name:'Meet a Disney Princess',meta:"Cinderella's Fairy Tale Hall — Zoe's royal moment! Stroller friendly all the way."},
-  {id:'m7',emoji:'🐭',name:'Meet Mickey Mouse',meta:"Mickey's House, Toontown — tell Cast Member it's Miles's birthday! 🎂"},
-  {id:'m8',emoji:'✨',name:'See the Electrical Parade Dreamlights',meta:'~7pm — claim Central Plaza spot 40 min early. THE moment of the whole day!'},
-  {id:'m9',emoji:'🎇',name:'Reach for the Stars Castle Show',meta:'~8:30pm — stand in Central Plaza for the full sky-lighting effect'},
+  {id:'m7',emoji:'🐭',name:'Meet Mickey Mouse',meta:"Mickey's House in Toontown — tell Cast Member it's Miles's birthday! 🎂"},
 ];
 
+// ALL RIDES VERIFIED against official TDR closure list for March 24, 2026
+// Source: tokyodisneyresort.jp/en/tdl/monthly/stop.html
 const RIDES_CLOSED=[
-  {id:'rc1',emoji:'🐘',name:'Dumbo the Flying Elephant',area:'Fantasyland',desc:'Closed Jan 5–Jul 31, 2026 for refurbishment.'},
-  {id:'rc2',emoji:'🧚',name:"Peter Pan's Flight",area:'Fantasyland',desc:'Closes TODAY (March 24) for refurb through May 22. Bad timing!'},
-  {id:'rc3',emoji:'🐇',name:"Roger Rabbit's Car Toon Spin",area:'Toontown',desc:'Closed Feb 27–March 30.'},
-  {id:'rc4',emoji:'🌳',name:'Swiss Family Treehouse',area:'Adventureland',desc:'Long-term closure since 2022, TBD.'},
+  {id:'rc1',emoji:'🐘',name:'Dumbo the Flying Elephant',area:'Fantasyland',desc:'Closed Jan 5 – Jul 31, 2026 for refurbishment.'},
+  {id:'rc2',emoji:'🧚',name:"Peter Pan's Flight",area:'Fantasyland',desc:'Closes TODAY (March 24) for refurbishment through May 22, 2026.'},
+  {id:'rc3',emoji:'🐇',name:"Roger Rabbit's Car Toon Spin",area:'Toontown',desc:'Closed Feb 27 – March 30. Reopens in less than a week!'},
+  {id:'rc4',emoji:'🌳',name:'Swiss Family Treehouse',area:'Adventureland',desc:'Long-term closure since April 2022. No reopening date announced.'},
+  {id:'rc5',emoji:'🚀',name:"Buzz Lightyear's Astro Blasters",area:'Tomorrowland',desc:'Permanently closed Oct 31, 2024. Being rebuilt as a Wreck-It Ralph attraction — expected Spring 2027.'},
+  {id:'rc6',emoji:'🎰',name:'Space Mountain',area:'Tomorrowland',desc:'Closed Jul 31, 2024 for complete rebuild. New version expected 2027.'},
 ];
 
 const RIDES_MUST=[
   {id:'r1',emoji:'🐻',name:"Pooh's Hunny Hunt",tags:['must','zoe','miles'],area:'Fantasyland',wait:'60-120',wc:'rd',
-   desc:'Trackless honey pots through Hundred Acre Wood — TOKYO EXCLUSIVE, nowhere else! Get Priority Pass in TDR app the SECOND you enter.',
-   sofia:'sw',sofiaN:'Sofia sits this one out — Rider Switch!'},
+   desc:"Trackless honey pots through Hundred Acre Wood — TOKYO EXCLUSIVE, nowhere else on earth! Get Priority Pass in TDR app THE SECOND you walk in.",
+   sofia:'sw',sofiaN:'Sofia sits this one out — Rider Switch! One parent stays with her, the other rides, then swap with no re-queuing.'},
   {id:'r2',emoji:'🌹',name:"Beauty & the Beast: Musical Romance",tags:['must','zoe','miles'],area:'Fantasyland',wait:'60-90',wc:'rd',
-   desc:'Spinning cars through an enormous enchanted castle — TOKYO EXCLUSIVE. Use Disney Premier Access (paid) to skip the line.',
-   sofia:'sw',sofiaN:'Sofia sits this one out — Rider Switch available.'},
+   desc:"Spinning enchanted teacup cars through an enormous castle — TOKYO EXCLUSIVE! Breathtaking. Use DPA (Disney Premier Access) to skip the line.",
+   sofia:'sw',sofiaN:'Sofia sits this one out — Rider Switch available at the entrance.'},
   {id:'r3',emoji:'🌍',name:"it's a small world with Groot",tags:['must','zoe','miles','sofia-ok'],area:'Fantasyland',wait:'20-35',wc:'',
-   desc:"Classic boat ride with hidden Groot characters throughout! Special overlay Dec 2025–Jun 2026. Gentle and perfect for everyone.",
-   sofia:'ok',sofiaN:'🌸 Sofia friendly — she\'ll be mesmerized!'},
-  {id:'r4',emoji:'🎪',name:"Monsters Inc. Ride & Go Seek!",tags:['must','zoe','miles','sofia-ok'],area:'Tomorrowland',wait:'30-55',wc:'yw',
-   desc:"Flashlight hunt for Monsters in the dark! Interactive, all ages. Sit in the back row. Miles will absolutely go wild.",
-   sofia:'ok',sofiaN:'🌸 Sofia friendly — gentle dark ride!'},
-  {id:'r5',emoji:'👾',name:"Buzz Lightyear Astro Blasters",tags:['must','zoe','miles','sofia-ok'],area:'Tomorrowland',wait:'20-35',wc:'',
-   desc:"Shoot laser targets to help Buzz! Competitive — who gets the highest score? Aim for diamond ◆ targets.",
-   sofia:'ok',sofiaN:'🌸 Sofia friendly!'},
-  {id:'r6',emoji:'🦸',name:"Happy Ride with Baymax",tags:['must','zoe','miles'],area:'Tomorrowland',wait:'35-60',wc:'yw',
-   desc:"World's first rotating disc ride themed to Big Hero 6! Height min 81cm — Zoe (116cm) ✅ Miles (104cm) ✅ both ride!",
-   sofia:'no',sofiaN:'Sofia sits this one out — Rider Switch available.'},
-  {id:'r7',emoji:'🍵',name:"Alice's Tea Party",tags:['must','zoe','miles','sofia-ok'],area:'Fantasyland',wait:'10-20',wc:'',
-   desc:"Spinning teacups with Alice theming! Control how fast you spin. Warn Miles if he gets dizzy easily.",
+   desc:"Classic boat ride through the world — Groot from Guardians of the Galaxy hidden throughout! Limited overlay Dec 27, 2025 – Jun 28, 2026.",
+   sofia:'ok',sofiaN:'🌸 Sofia friendly — gentle, colorful, she will be mesmerized!'},
+  {id:'r4',emoji:'🔦',name:"Monsters Inc. Ride & Go Seek!",tags:['must','zoe','miles','sofia-ok'],area:'Tomorrowland',wait:'30-55',wc:'yw',
+   desc:"You get a flashlight and hunt for Monsters hiding in the dark! Interactive and incredible for all ages. Sit in the BACK ROW for the most finds. Miles will go absolutely wild.",
+   sofia:'ok',sofiaN:'🌸 Sofia friendly — gentle dark ride with fun lighting!'},
+  {id:'r5',emoji:'🦸',name:"Happy Ride with Baymax",tags:['must','zoe','miles'],area:'Tomorrowland',wait:'35-60',wc:'yw',
+   desc:"World's first Big Hero 6 rotating disc ride! Great music and spinning fun. Height min 81cm — Zoe (116cm) ✅ Miles (104cm) ✅ both in!",
+   sofia:'no',sofiaN:'Sofia sits this one out — 81cm height min. Rider Switch available.'},
+  {id:'r6',emoji:'🍵',name:"Alice's Tea Party",tags:['must','zoe','miles','sofia-ok'],area:'Fantasyland',wait:'10-20',wc:'',
+   desc:"Spinning teacups with Alice in Wonderland theming! You control the spin speed. Great for both kids — warn Miles if he gets dizzy easily.",
    sofia:'ok',sofiaN:'🌸 Sofia friendly on a parent\'s lap!'},
-  {id:'r8',emoji:'🎠',name:"Cinderella Carrousel",tags:['must','zoe','sofia-ok'],area:'Fantasyland',wait:'5-15',wc:'',
-   desc:"Beautiful white horses right by the castle! Zoe and Miles each pick their horse.",
+  {id:'r7',emoji:'🎠',name:"Cinderella Carrousel",tags:['must','zoe','sofia-ok'],area:'Fantasyland',wait:'5-15',wc:'',
+   desc:"Beautiful white horses right beside Cinderella Castle! Zoe and Miles each pick their own horse. Perfect photo op.",
    sofia:'lap',sofiaN:'🌸 Sofia can ride on a parent\'s lap!'},
-  {id:'r9',emoji:'🌴',name:"Jungle Cruise: Wildlife Expeditions",tags:['must','miles','sofia-ok'],area:'Adventureland',wait:'15-30',wc:'',
-   desc:"Funny skipper, animatronic elephants, crocs, hippos! Great laughs. Miles loves animals = instant hit.",
-   sofia:'lap',sofiaN:'🌸 Sofia friendly — gentle boat ride!'},
+  {id:'r8',emoji:'🌴',name:"Jungle Cruise: Wildlife Expeditions",tags:['must','miles','sofia-ok'],area:'Adventureland',wait:'15-30',wc:'',
+   desc:"Hilarious skipper guides you past animatronic elephants, crocs, hippos! Miles loves animals — instant hit. Great for laughs even in Japanese.",
+   sofia:'lap',sofiaN:'🌸 Sofia friendly — gentle boat ride, hold on lap!'},
 ];
 
 const RIDES_OTHER=[
-  {id:'ro1',emoji:'🐭',name:"Mickey's House (Meet Mickey!)",tags:['zoe','miles','sofia-ok'],area:'Toontown',wait:'20-40',wc:'yw',
-   desc:"Meet Mickey in his own house! Best birthday photo op for Miles.",sofia:'ok',sofiaN:'🌸 Sofia friendly — first Mickey photo! 📸'},
+  {id:'ro1',emoji:'🐭',name:"Mickey's House (Meet Mickey!)",tags:['must','zoe','miles','sofia-ok'],area:'Toontown',wait:'20-40',wc:'yw',
+   desc:"Meet Mickey Mouse in his actual house! Walk through his home then meet him for photos. Tell the Cast Member it's Miles's birthday!",
+   sofia:'ok',sofiaN:'🌸 Sofia friendly — first ever Mickey photo! 📸'},
   {id:'ro2',emoji:'☠️',name:"Pirates of the Caribbean",tags:['zoe','miles','sofia-ok'],area:'Adventureland',wait:'15-25',wc:'',
-   desc:"Captain Jack Sparrow adventures! Slightly dark but fun. Miles will love the pirates.",sofia:'lap',sofiaN:'Sofia friendly on lap — some dark scenes.'},
+   desc:"Classic boat ride with Captain Jack Sparrow! Slightly dark with cannon fire but fun not scary. Miles will love the pirates and treasure.",
+   sofia:'lap',sofiaN:'Sofia friendly on lap — some dark scenes but gentle overall.'},
   {id:'ro3',emoji:'🎬',name:"Mickey's PhilharMagic",tags:['zoe','miles','sofia-ok'],area:'Fantasyland',wait:'WALK IN',wc:'',
-   desc:"4D movie — feel wind, smell food, get splashed! Just reopened March 24. Great indoor rest break.",sofia:'ok',sofiaN:'🌸 Sofia friendly!'},
-  {id:'ro4',emoji:'🎶',name:"Mickey's Magical Music World",tags:['zoe','miles'],area:'Fantasyland Forest Theatre',wait:'Seated',wc:'',
-   desc:"Tokyo EXCLUSIVE live stage musical with Mickey and Friends! Big sets and effects.",sofia:'ok',sofiaN:'🌸 Sofia friendly — seated show!'},
+   desc:"4D movie — feel wind, smell food, get splashed with beloved Disney songs! Reopened today March 24 after refurbishment. Great seated rest break. Runs continuously.",
+   sofia:'ok',sofiaN:'🌸 Sofia friendly — gentle sensory fun!'},
+  {id:'ro4',emoji:'🎶',name:"Mickey's Magical Music World",tags:['zoe','miles'],area:'Fantasyland Forest Theatre',wait:'Seated Show',wc:'',
+   desc:"Tokyo EXCLUSIVE live stage musical with Mickey and Friends! Big sets, costumes, special effects. Get seats before showtime. Check TDR app for times.",
+   sofia:'ok',sofiaN:'🌸 Sofia friendly — seated show.'},
   {id:'ro5',emoji:'👾',name:"Stitch Encounter",tags:['zoe'],area:'Tomorrowland',wait:'15-25',wc:'',
-   desc:"Live interactive show with Stitch — all in Japanese, so visual fun for your family. Hilarious reactions!",sofia:'ok',sofiaN:'🌸 Sofia friendly — seated theater.'},
+   desc:"Interactive show where Stitch talks live to the audience — all in Japanese, so visual fun for your family. Stitch reactions are hilarious!",
+   sofia:'ok',sofiaN:'🌸 Sofia friendly — seated theater show.'},
   {id:'ro6',emoji:'⛏️',name:"Big Thunder Mountain",tags:['zoe','miles','thrills'],area:'Westernland',wait:'30-55',wc:'yw',
-   desc:"Mine train roller coaster! Height min 102cm — Zoe (116cm) ✅ Miles (104cm) ✅ Both ride! Ask if they're feeling brave!",sofia:'no',sofiaN:'Sofia sits this one out — Rider Switch!'},
+   desc:"Wild mine train roller coaster! Height min 102cm — Zoe (116cm) ✅ Miles (104cm) ✅ both ride! Ask if they are feeling brave.",
+   sofia:'no',sofiaN:'Sofia sits this one out — 102cm height min. Rider Switch available!'},
   {id:'ro7',emoji:'💦',name:"Splash Mountain",tags:['zoe','miles','thrills'],area:'Critter Country',wait:'30-60',wc:'yw',
-   desc:"Big splashy log flume drop! You WILL get wet. Height min 90cm — Zoe ✅ Miles ✅ Both ride!",sofia:'no',sofiaN:'Sofia sits this one out — Rider Switch available.'},
+   desc:"Log flume with a big splashy drop! You WILL get wet. Height min 90cm — Zoe ✅ Miles ✅ both ride! March can be chilly so bring a spare layer.",
+   sofia:'no',sofiaN:'Sofia sits this one out — 90cm height min. Rider Switch available.'},
   {id:'ro8',emoji:'👻',name:"Haunted Mansion",tags:['zoe','miles'],area:'Fantasyland',wait:'15-30',wc:'',
-   desc:"999 happy haunts — fun spooky, not scary spooky! Check Miles's bravery level first.",sofia:'lap',sofiaN:'Sofia on a parent\'s lap — dark but gentle.'},
-  {id:'ro9',emoji:'🚀',name:"Star Tours",tags:['zoe','miles','thrills'],area:'Tomorrowland',wait:'20-35',wc:'',
-   desc:"Star Wars motion simulator! Height min 102cm — Zoe ✅ Miles ✅ Randomized missions each time.",sofia:'no',sofiaN:'Sofia sits this one out — Rider Switch available.'},
+   desc:"999 happy haunts — fun spooky not scary spooky! Ghost ballroom, stretching room, hitchhiking ghosts. Gauge Miles's bravery first.",
+   sofia:'lap',sofiaN:'Sofia on a parent\'s lap — dark but gentle.'},
+  {id:'ro9',emoji:'🌟',name:"Star Tours: The Adventures Continue",tags:['zoe','miles','thrills'],area:'Tomorrowland',wait:'20-35',wc:'',
+   desc:"Star Wars motion simulator with randomized missions — different every time! Height min 102cm — Zoe ✅ Miles ✅ both ride!",
+   sofia:'no',sofiaN:'Sofia sits this one out — 102cm height min. Rider Switch available.'},
   {id:'ro10',emoji:'🚂',name:"Western River Railroad",tags:['miles','sofia-ok'],area:'Adventureland',wait:'5-15',wc:'',
-   desc:"Scenic steam train around the park! Miles LOVES trains. Grand Canyon diorama and dinosaurs.",sofia:'lap',sofiaN:'🌸 Sofia friendly — great nap ride!'},
+   desc:"Scenic steam train around the whole park! Grand Canyon diorama and dinosaurs. Miles LOVES trains. Perfect rest for tired feet.",
+   sofia:'lap',sofiaN:'🌸 Sofia friendly — great nap opportunity!'},
   {id:'ro11',emoji:'⛵',name:"Mark Twain Riverboat",tags:['sofia-ok'],area:'Westernland',wait:'5-10',wc:'',
-   desc:"Slow paddle steamer — scenic and very restful. Great midday rest break.",sofia:'ok',sofiaN:'🌸 Sofia friendly!'},
+   desc:"Slow elegant paddle steamer around the Rivers of America — scenic, relaxing, great for tired feet mid-afternoon.",
+   sofia:'ok',sofiaN:'🌸 Sofia friendly!'},
   {id:'ro12',emoji:'🐿️',name:"Gadget's Go Coaster",tags:['miles','zoe'],area:'Toontown',wait:'15-25',wc:'',
-   desc:"Fun coaster made from oversized everyday objects! Height min 90cm — Miles ✅ Zoe ✅",sofia:'no',sofiaN:'Sofia sits this one out — Rider Switch available.'},
+   desc:"Fun starter coaster made from oversized everyday objects! Height min 90cm — Miles ✅ Zoe ✅ great to ride together.",
+   sofia:'no',sofiaN:'Sofia sits this one out — 90cm height min. Rider Switch available.'},
   {id:'ro13',emoji:'🎡',name:"Pinocchio's Daring Journey",tags:['miles'],area:'Fantasyland',wait:'5-15',wc:'',
-   desc:"Classic dark ride through Pinocchio's story. Low waits. Good filler ride.",sofia:'lap',sofiaN:'Sofia friendly on lap — gentle.'},
+   desc:"Classic dark ride through Pinocchio's story. Low waits. Good filler ride between bigger attractions.",
+   sofia:'lap',sofiaN:'Sofia friendly on lap — gentle dark ride.'},
   {id:'ro14',emoji:'🔫',name:"Westernland Shootin' Gallery",tags:['zoe','miles'],area:'Westernland',wait:'WALK UP',wc:'',
-   desc:"Shoot targets! Small fee. Great Zoe vs. Miles competition.",sofia:'ok',sofiaN:'Sofia watches from stroller!'},
-  {id:'ro15',emoji:'🏎️',name:"Autopia",tags:['zoe','miles'],area:'Tomorrowland',wait:'15-25',wc:'',
-   desc:"Drive your own car on a track! Kids love being in control. Each rides with a parent.",sofia:'sw',sofiaN:'Sofia sits this one out — Rider Switch available.'},
-  {id:'ro16',emoji:'🏠',name:"Minnie's House",tags:['zoe','sofia-ok'],area:'Toontown',wait:'WALK THROUGH',wc:'',
-   desc:"Walk through Minnie's charming house — kitchen, wardrobe, living room!",sofia:'ok',sofiaN:'🌸 Sofia friendly — stroller all the way!'},
-  {id:'ro17',emoji:'🎨',name:"Minnie's Style Studio",tags:['zoe'],area:'Toontown',wait:'WALK THROUGH',wc:'',
-   desc:"Minnie's fashion studio! Zoe can pose and take photos. Character meet possible — check TDR app.",sofia:'ok',sofiaN:'🌸 Sofia friendly.'},
-  {id:'ro18',emoji:'🚢',name:"Donald's Boat (Miss Daisy)",tags:['miles','sofia-ok'],area:'Toontown',wait:'WALK THROUGH',wc:'',
-   desc:"Water squirting surprises on Donald's boat! Great for Miles to run around freely.",sofia:'ok',sofiaN:'🌸 Sofia watches from stroller!'},
-  {id:'ro19',emoji:'🌲',name:"Chip 'n Dale's Treehouse",tags:['miles'],area:'Toontown',wait:'WALK THROUGH',wc:'',
-   desc:"Climb through the acorn treehouse! Let Miles run free here.",sofia:'ok',sofiaN:'Sofia watches from stroller nearby.'},
-  {id:'ro20',emoji:'🎮',name:"Goofy's Paint 'n' Play House",tags:['miles','zoe'],area:'Toontown',wait:'WALK THROUGH',wc:'',
-   desc:"Interactive touch screens and Goofy-themed games! Great for young kids.",sofia:'ok',sofiaN:'Sofia can come in stroller!'},
-  {id:'ro21',emoji:'🐻',name:"Country Bear Theater",tags:[],area:'Westernland',wait:'WALK IN',wc:'',
-   desc:"Animatronic country music bears! Classic old-school Disney. Good sit-down indoor break.",sofia:'ok',sofiaN:'🌸 Sofia friendly — seated show.'},
-  {id:'ro22',emoji:'🏕️',name:"Tom Sawyer Island Rafts",tags:['miles','zoe'],area:'Westernland',wait:'5-15',wc:'',
-   desc:"Raft to an island with caves, bridges, and a fort! Kids love exploring here.",sofia:'sw',sofiaN:'Sofia sits this one out on the raft.'},
-  {id:'ro23',emoji:'🚌',name:"Omnibus (World Bazaar)",tags:['sofia-ok'],area:'World Bazaar',wait:'WALK UP',wc:'',
-   desc:"Double-decker bus tour of the central plaza! Charming and restful.",sofia:'ok',sofiaN:'🌸 Sofia friendly!'},
-  {id:'ro24',emoji:'❄️',name:"Snow White's Adventures",tags:['miles'],area:'Fantasyland',wait:'5-15',wc:'',
-   desc:"Dark ride through Snow White's story. Some dramatic scenes — gauge Miles's bravery.",sofia:'lap',sofiaN:'Sofia on a parent\'s lap — some darker scenes.'},
-  {id:'ro25',emoji:'🌊',name:"Beaver Brothers Explorer Canoes",tags:['zoe'],area:'Critter Country',wait:'15-25',wc:'',
-   desc:"Guests actually PADDLE a canoe around the river! Fun physical activity. Check TDR app if operating.",sofia:'no',sofiaN:'Sofia sits this one out — active paddling.'},
+   desc:"Shoot targets in a fun Western gallery! Small fee per play. Great Zoe vs Miles competition.",
+   sofia:'ok',sofiaN:'Sofia watches happily from stroller!'},
+  {id:'ro15',emoji:'🏠',name:"Minnie's House",tags:['zoe','sofia-ok'],area:'Toontown',wait:'WALK THROUGH',wc:'',
+   desc:"Walk through Minnie Mouse's charming house — peek at her kitchen, wardrobe, and living room! Zoe will love it.",
+   sofia:'ok',sofiaN:'🌸 Sofia friendly — stroller all the way!'},
+  {id:'ro16',emoji:'🎀',name:"Minnie's Style Studio",tags:['zoe'],area:'Toontown',wait:'WALK THROUGH',wc:'',
+   desc:"Minnie Mouse's fashion studio — Zoe can pose for photos. Character meet possible — check TDR app for times.",
+   sofia:'ok',sofiaN:'🌸 Sofia friendly.'},
+  {id:'ro17',emoji:'🚢',name:"Donald's Boat (Miss Daisy)",tags:['miles','sofia-ok'],area:'Toontown',wait:'WALK THROUGH',wc:'',
+   desc:"Climb aboard Donald Duck's boat with fun water surprises! Great for Miles to run around freely.",
+   sofia:'ok',sofiaN:'🌸 Sofia watches from stroller dockside!'},
+  {id:'ro18',emoji:'🌲',name:"Chip 'n Dale's Treehouse",tags:['miles'],area:'Toontown',wait:'WALK THROUGH',wc:'',
+   desc:"Climb through Chip and Dale's acorn treehouse! Great playground-style fun — let Miles run free here.",
+   sofia:'ok',sofiaN:'Sofia watches from stroller nearby.'},
+  {id:'ro19',emoji:'🎨',name:"Goofy's Paint 'n' Play House",tags:['miles','zoe'],area:'Toontown',wait:'WALK THROUGH',wc:'',
+   desc:"Interactive touch screens and Goofy-themed games! Great for young kids. Free roam fun.",
+   sofia:'ok',sofiaN:'Sofia can come along in stroller!'},
+  {id:'ro20',emoji:'🐻',name:"Country Bear Theater",tags:[],area:'Westernland',wait:'WALK IN',wc:'',
+   desc:"Animatronic country music bears — classic old-school Disney charm! Good air-conditioned sit-down break.",
+   sofia:'ok',sofiaN:'🌸 Sofia friendly — seated and cool.'},
+  {id:'ro21',emoji:'🏕️',name:"Tom Sawyer Island Rafts",tags:['miles','zoe'],area:'Westernland',wait:'5-15',wc:'',
+   desc:"Raft to Tom Sawyer Island and explore caves, bridges, and a fort! Kids love the freedom here. Check TDR app to confirm operating.",
+   sofia:'sw',sofiaN:'Sofia sits this one out on the raft — one parent stays behind.'},
+  {id:'ro22',emoji:'🚌',name:"Omnibus (World Bazaar)",tags:['sofia-ok'],area:'World Bazaar',wait:'WALK UP',wc:'',
+   desc:"Charming double-decker bus tour around the central plaza! Great rest when feet are tired.",
+   sofia:'ok',sofiaN:'🌸 Sofia friendly!'},
+  {id:'ro23',emoji:'❄️',name:"Snow White's Adventures",tags:['miles'],area:'Fantasyland',wait:'5-15',wc:'',
+   desc:"Classic dark ride through Snow White's story with the Evil Queen! Some dramatic scenes — gauge Miles's bravery first.",
+   sofia:'lap',sofiaN:'Sofia on a parent\'s lap — some darker scenes.'},
+  {id:'ro24',emoji:'🌊',name:"Beaver Brothers Explorer Canoes",tags:['zoe'],area:'Critter Country',wait:'15-25',wc:'',
+   desc:"Guests actually PADDLE a canoe around the Rivers of America! Fun physical activity. Check TDR app to confirm operating on March 24.",
+   sofia:'no',sofiaN:'Sofia sits this one out — active paddling canoe.'},
 ];
-
 const SHOWS=[
   {id:'s1',emoji:'🌈',name:"Disney Harmony in Color (Daytime Parade)",tags:['parade','must'],
    times:'Once mid-afternoon — confirm in TDR app',area:'Main Parade Route',
@@ -562,9 +586,9 @@ const SHOWS=[
    desc:"Tropical birds and flowers sing — until Stitch crash-lands and takes over! Super fun, silly, air-conditioned. One of the most beloved Stitch experiences at any Disney park. Walk in a few minutes before showtime.",
    sofia:'🌸 Sofia friendly — seated, cool, and short!'},
   {id:'s8',emoji:'🎉',name:"Let's Party Gras!",tags:['show'],
-   times:'Throughout the day',area:'Various Locations',
-   desc:"Festive event atmosphere throughout the park Dec 2025–June 2026. Special decorations, themed entertainment, and characters in Party Gras outfits. You'll encounter it everywhere!",
-   sofia:'🌸 Ambient — you\'ll stumble into it all day!'},
+   times:'Throughout the day — check TDR app',area:'Theater Orleans, Adventureland',
+   desc:"Lively Mardi Gras-inspired stage show with Donald Duck, Mickey, Goofy, Jose Carioca, Panchito and friends! Donald didn't get to celebrate Mardi Gras, so all his pals throw him one! Running since 2018 and still going strong. Fun, colourful, great for kids.",
+   sofia:'🌸 Sofia friendly — seated outdoor show!'},
   {id:'s9',emoji:'👸',name:"Cinderella's Fairy Tale Hall (Princess Meet)",tags:['character','must'],
    times:'During park hours — walk in',area:'Cinderella Castle',
    desc:"Walk through Cinderella's story — glass slipper, throne room — then meet a Disney princess! Zoe feels like true royalty. Check TDR app for which princess today.",
@@ -584,8 +608,8 @@ const SHOWS=[
 ];
 
 const SNACKS=[
-  {id:'f1',emoji:'🥨',name:'Soft Pretzel (Plain)',must:true,price:'~¥500',loc:'Cart near Gadget\'s Go Coaster, Toontown',
-   desc:"Classic warm soft pretzel — plain and salty! Go in the morning before they sell out."},
+  {id:'f1',emoji:'🥨',name:'Soft Pretzel (Plain)',must:true,price:'~¥500',loc:'Pretzel carts — ask a Cast Member for current location',
+   desc:"Classic warm plain soft pretzel! Look for pretzel carts in Tomorrowland and World Bazaar area — ask any Cast Member where to find one. Pretzels have been sold at various cart locations in the park."},
   {id:'f2',emoji:'🍿',name:'Flavored Popcorn (Zoe Picks!)',must:true,price:'~¥500-700',loc:'Carts in every land',
    desc:"THE Tokyo Disney experience! Honey near Pooh (best!), Curry, Chocolate, Caramel, Soy Butter. Zoe commands the flavor. Buy a themed souvenir bucket!"},
   {id:'f3',emoji:'👽',name:'Toy Story Alien Mochi',must:true,price:'~¥600',loc:"Plazma Ray's Diner, Tomorrowland",
@@ -633,7 +657,7 @@ const SCHED=[
   {t:'11:30am',title:'🍛 Early Lunch — Hungry Bear Restaurant',desc:'Eat NOW before noon crowds! Tonkatsu curry = best. Grab soft pretzel from Toontown cart on the way!',color:'teal'},
   {t:'12:30pm',title:'🌈 Check Parade Time in TDR App',desc:'Disney Harmony in Color runs once mid-afternoon. Confirm exact time and claim your spot 20 min early!',color:''},
   {t:'2:00pm',title:'🕺 Jamboree Mickey! Let\'s Dance',desc:'Dance show at Castle Forecourt! Zoe and Miles join in. Get there a few minutes early.',color:''},
-  {t:'2:45pm',title:'⚡ Parade Time = Low Wait Rides',desc:'While parade runs, Tomorrowland queues DROP. Rush Monsters Inc. + Buzz Lightyear now — best waits of the day!',color:''},
+  {t:'2:45pm',title:'⚡ Parade Time = Low Wait Rides',desc:'While parade runs, Tomorrowland queues DROP. Rush Monsters Inc. and Happy Ride with Baymax now — best waits of the day!',color:''},
   {t:'4:00pm',title:'👑 Wild Card — Zoe Decides!',desc:'Check TDR app live waits. Big Thunder? Alice\'s Tea Party? Haunted Mansion? ZOE PICKS! 👑',color:'pink'},
   {t:'5:00pm',title:'🍜 Early Dinner',desc:'Eat before the 6pm dinner rush. Then secure your evening parade spot.',color:'teal'},
   {t:'6:15pm',title:'📍 Claim Electrical Parade Spot',desc:'Go NOW — 45 min early! Central Plaza near the castle. Floats slow down here. Kids on shoulders!',color:'gold'},
@@ -646,17 +670,17 @@ const ORACLE_FOOD=["🥨 Plain SOFT PRETZEL from Toontown! Go before they sell o
 const ORACLE_OTHER=["📸 FAMILY PHOTO TIME! Find a beautiful spot and capture this moment! 💜","💃 DANCE PARTY! Find some Disney music and have a spontaneous family dance! 🎵","🛍️ SOUVENIR TIME! Find one perfect memory to take home. What will Zoe choose? 💎","🗺️ EXPLORE a land you haven't been to yet today! Be brave! 🌟","💤 REST BREAK! Find a bench or show and sit together for 15 minutes. Queens need rest too! 👑",];
 
 // ══════════════════════════════════════════════════════════════
-// STORAGE
+// STORAGE — with safe JSON parse
 // ══════════════════════════════════════════════════════════════
-// wanted = starred (want to do) | done = checked off
-let wanted=JSON.parse(localStorage.getItem('zdv4_w')||'[]');
-let done=JSON.parse(localStorage.getItem('zdv4_d')||'[]');
-let customs=JSON.parse(localStorage.getItem('zdv4_c')||'{}');
+function safeGet(key,def){try{const v=localStorage.getItem(key);return v?JSON.parse(v):def;}catch(e){return def;}}
+let wanted=safeGet('zdv4_w',[]);
+let done=safeGet('zdv4_d',[]);
+let customs=safeGet('zdv4_c',{});
 
 function save(){try{localStorage.setItem('zdv4_w',JSON.stringify(wanted));localStorage.setItem('zdv4_d',JSON.stringify(done));localStorage.setItem('zdv4_c',JSON.stringify(customs));}catch(e){}}
 function sn(id){const el=document.getElementById(id);if(el)try{localStorage.setItem('zdv4_n_'+id,el.value);}catch(e){}}
-function gn(id){return localStorage.getItem('zdv4_n_'+id)||'';}
-function showSpill(){const s=document.getElementById('spill');s.classList.add('show');setTimeout(()=>s.classList.remove('show'),1200);}
+function gn(id){try{return localStorage.getItem('zdv4_n_'+id)||'';}catch(e){return '';}}
+function showSpill(){const s=document.getElementById('spill');if(!s)return;s.classList.add('show');setTimeout(()=>s.classList.remove('show'),1200);}
 
 // ══════════════════════════════════════════════════════════════
 // WANT / DONE TOGGLES
@@ -668,18 +692,18 @@ function toggleWant(id){
 function toggleDone(id){
   const i=done.indexOf(id);i===-1?done.push(id):done.splice(i,1);
   save();showSpill();
-  // Update the specific checklist item if visible
   updateChecklistItem(id);
   rebuildChecklist();
   updateProgress();
-  if(document.getElementById('tab-mem').classList.contains('active'))buildMem();
+  const mem=document.getElementById('tab-mem');
+  if(mem&&mem.classList.contains('active'))buildMem();
 }
 function toggleDoneSched(id){
   const i=done.indexOf(id);i===-1?done.push(id):done.splice(i,1);
   save();showSpill();
   const card=document.getElementById(id);
-  const btn=card?.querySelector('.done-sc-btn');
-  if(card){card.classList.toggle('done-on',done.includes(id));}
+  const btn=card?card.querySelector('.done-sc-btn'):null;
+  if(card)card.classList.toggle('done-on',done.includes(id));
   if(btn){btn.classList.toggle('on',done.includes(id));btn.textContent=done.includes(id)?'✓ Done!':'Mark Done';}
   updateProgress();
 }
@@ -702,9 +726,9 @@ function rebuildAll(){
 }
 
 function applyStates(){
-  // Apply wanted/done states to all cards
   document.querySelectorAll('[data-itemid]').forEach(el=>{
     const id=el.getAttribute('data-itemid');
+    if(!id)return;
     const isW=wanted.includes(id),isD=done.includes(id);
     el.classList.toggle('wanted',isW);
     el.classList.toggle('done-on',isD);
@@ -718,18 +742,17 @@ function applyStates(){
 // ══════════════════════════════════════════════════════════════
 function rebuildChecklist(){
   buildMissions();
-  buildChecklistSection('cl-rides','ride',RIDES_MUST.concat(RIDES_OTHER).concat(customs.rides||[]),wanted,done);
-  buildChecklistSection('cl-shows','show',SHOWS.concat(customs.shows||[]),wanted,done);
-  buildChecklistSection('cl-snacks','snack',SNACKS.filter(f=>!f.sofia).concat(customs.snacks||[]),wanted,done);
-  // Update counts
-  updateCount('ride-count','ride');
-  updateCount('show-count','show');
-  updateCount('snack-count','snack');
+  buildChecklistSection('cl-rides','ride',[...RIDES_MUST,...RIDES_OTHER,...(customs.rides||[])],wanted,done);
+  buildChecklistSection('cl-shows','show',[...SHOWS,...(customs.shows||[])],wanted,done);
+  buildChecklistSection('cl-snacks','snack',[...SNACKS.filter(f=>!f.sofia),...(customs.snacks||[])],wanted,done);
+  updateCount('ride-count',[...RIDES_MUST,...RIDES_OTHER,...(customs.rides||[])]);
+  updateCount('show-count',[...SHOWS,...(customs.shows||[])]);
+  updateCount('snack-count',[...SNACKS.filter(f=>!f.sofia),...(customs.snacks||[])]);
 }
 
 function buildChecklistSection(elId,badge,allItems,wantedArr,doneArr){
   const el=document.getElementById(elId);if(!el)return;
-  const inList=allItems.filter(item=>wantedArr.includes(item.id));
+  const inList=allItems.filter(item=>item&&item.id&&wantedArr.includes(item.id));
   if(!inList.length){el.innerHTML=`<div class="cl-empty">Tap ⭐ on any ${badge} to add it here!</div>`;return;}
   el.innerHTML=inList.map(item=>{
     const isDone=doneArr.includes(item.id);
@@ -745,32 +768,26 @@ function buildChecklistSection(elId,badge,allItems,wantedArr,doneArr){
   }).join('');
 }
 
-function updateCount(elId,badge){
+function updateCount(elId,items){
   const el=document.getElementById(elId);if(!el)return;
-  const allItems=[...RIDES_MUST,...RIDES_OTHER,...(customs.rides||[]),...SHOWS,...(customs.shows||[]),...SNACKS.filter(f=>!f.sofia),...(customs.snacks||[])];
-  const wCount=allItems.filter(i=>wanted.includes(i.id)).length;
-  const dCount=allItems.filter(i=>wanted.includes(i.id)&&done.includes(i.id)).length;
-  if(badge==='ride'||badge==='show'||badge==='snack'){
-    const tab={ride:[...RIDES_MUST,...RIDES_OTHER,...(customs.rides||[])],show:[...SHOWS,...(customs.shows||[])],snack:[...SNACKS.filter(f=>!f.sofia),...(customs.snacks||[])]};
-    const items=tab[badge]||[];
-    const w=items.filter(i=>wanted.includes(i.id)).length;
-    const d=items.filter(i=>wanted.includes(i.id)&&done.includes(i.id)).length;
-    el.textContent=w>0?`${d}/${w}`:'0';
-  }
+  const w=(items||[]).filter(i=>i&&i.id&&wanted.includes(i.id)).length;
+  const d=(items||[]).filter(i=>i&&i.id&&wanted.includes(i.id)&&done.includes(i.id)).length;
+  el.textContent=w>0?`${d}/${w}`:'0';
 }
 
 function buildMissions(){
   const el=document.getElementById('cl-missions');if(!el)return;
   const allM=[...MISSIONS,...(customs.cmd||[])];
   const doneCount=allM.filter(m=>done.includes(m.id)).length;
-  document.getElementById('mission-count').textContent=`${doneCount}/${allM.length}`;
+  const mc=document.getElementById('mission-count');
+  if(mc)mc.textContent=`${doneCount}/${allM.length}`;
   el.innerHTML=allM.map(m=>{
     const isDone=done.includes(m.id);
     return`<div class="cl-item ${isDone?'done-on':''}" id="cli-${m.id}">
       <button class="cl-check ${isDone?'on':''}" onclick="toggleDone('${m.id}')">${isDone?'✓':''}</button>
       <div class="cl-body">
-        <div class="cl-name">${m.emoji} ${m.name}</div>
-        <div class="cl-meta"><span class="cl-badge mission">mission</span>${m.meta}</div>
+        <div class="cl-name">${m.emoji||'✨'} ${m.name||''}</div>
+        <div class="cl-meta"><span class="cl-badge mission">mission</span>${m.meta||''}</div>
       </div>
     </div>`;
   }).join('');
@@ -781,10 +798,9 @@ function buildMissions(){
 // ══════════════════════════════════════════════════════════════
 function updateProgress(){
   const missionsDone=MISSIONS.filter(m=>done.includes(m.id)).length;
-  const missionsTotal=MISSIONS.length;
-  const wantedItems=[...RIDES_MUST,...RIDES_OTHER,...SHOWS,...SNACKS,...(customs.rides||[]),...(customs.shows||[]),...(customs.snacks||[])].filter(i=>wanted.includes(i.id));
+  const wantedItems=[...RIDES_MUST,...RIDES_OTHER,...SHOWS,...SNACKS,...(customs.rides||[]),...(customs.shows||[]),...(customs.snacks||[])].filter(i=>i&&i.id&&wanted.includes(i.id));
   const wantedDone=wantedItems.filter(i=>done.includes(i.id)).length;
-  const total=missionsTotal+wantedItems.length;
+  const total=MISSIONS.length+wantedItems.length;
   const totalDone=missionsDone+wantedDone;
   const pct=total>0?Math.round(totalDone/total*100):0;
   const b=document.getElementById('prog-bar'),l=document.getElementById('prog-lbl');
@@ -810,10 +826,10 @@ function sofiaDiv(type,note){
 function rideCard(r,closedStyle){
   const isW=wanted.includes(r.id),isD=done.includes(r.id);
   if(closedStyle){
-    return`<div class="card closed-card" id="c-${r.id}" data-itemid="${r.id}">
+    return`<div class="card closed-card" id="c-${r.id}" data-itemid="${r.id}" data-tags="">
       <div class="ch"><div class="ct">${r.emoji} ${r.name}</div></div>
       <div class="cd">${r.desc}</div>
-      <div class="cm"><span class="tag t-area">${r.area}</span><span class="tag t-wait rd">🚫 Closed Today</span></div>
+      <div class="cm"><span class="tag t-area">${r.area||''}</span><span class="tag t-wait rd">🚫 Closed Today</span></div>
     </div>`;
   }
   const mustTag=(r.tags||[]).includes('must')?'<span class="tag t-must">🌟 Must</span>':'';
@@ -857,42 +873,43 @@ function showCard(s){
 
 function snackCard(f){
   const isW=wanted.includes(f.id),isD=done.includes(f.id);
+  const loc=f.loc||'';const price=f.price||'';
   if(f.sofia){
     return`<div class="snack-card" id="c-${f.id}" data-itemid="${f.id}">
       <div class="ch"><div class="ct">${f.emoji} ${f.name}</div></div>
-      <div class="cd">${f.desc}</div>
-      <div class="cm"><span class="tag t-area">📍 ${f.loc}</span></div>
+      <div class="cd">${f.desc||''}</div>
+      ${loc?`<div class="cm"><span class="tag t-area">📍 ${loc}</span></div>`:''}
     </div>`;
   }
   return`<div class="snack-card ${isW?'wanted':''} ${isD?'done-on':''}" id="c-${f.id}" data-itemid="${f.id}">
     <div class="ch">
-      <div class="ct">${f.emoji} ${f.name} <span class="price-lbl">${f.price}</span></div>
+      <div class="ct">${f.emoji} ${f.name}${price?` <span class="price-lbl">${price}</span>`:''}</div>
       <div class="ca">
         <button class="ab awant ${isW?'on':''}" onclick="toggleWant('${f.id}')" title="${isW?'Remove from list':'Add to checklist'}">⭐</button>
         <button class="ab adone ${isD?'on':''}" onclick="toggleDone('${f.id}')" title="Mark done">✓</button>
       </div>
     </div>
-    <div class="cd">${f.desc}</div>
-    <div class="cm"><span class="tag t-area">📍 ${f.loc}</span>${f.must?'<span class="tag t-must">🌟 Must Try</span>':''}</div>
+    <div class="cd">${f.desc||''}</div>
+    ${loc?`<div class="cm"><span class="tag t-area">📍 ${loc}</span>${f.must?'<span class="tag t-must">🌟 Must Try</span>':''}</div>`:''}
   </div>`;
 }
 
+function setHtml(id,html){const el=document.getElementById(id);if(el)el.innerHTML=html;}
 function buildRides(){
-  document.getElementById('closed-rides').innerHTML=RIDES_CLOSED.map(r=>rideCard(r,true)).join('');
-  document.getElementById('must-rides').innerHTML=[...RIDES_MUST,...(customs.rides_must||[])].map(r=>rideCard(r,false)).join('');
-  document.getElementById('other-rides').innerHTML=[...RIDES_OTHER,...(customs.rides||[])].map(r=>rideCard(r,false)).join('');
+  setHtml('closed-rides',RIDES_CLOSED.map(r=>rideCard(r,true)).join(''));
+  setHtml('must-rides',[...RIDES_MUST,...(customs.rides_must||[])].map(r=>rideCard(r,false)).join(''));
+  setHtml('other-rides',[...RIDES_OTHER,...(customs.rides||[])].map(r=>rideCard(r,false)).join(''));
 }
 function buildShows(){
-  const el=document.getElementById('shows-list');if(!el)return;
-  el.innerHTML=[...SHOWS,...(customs.shows||[])].map(s=>showCard(s)).join('');
+  setHtml('shows-list',[...SHOWS,...(customs.shows||[])].map(s=>showCard(s)).join(''));
 }
 function buildSnacks(){
   const must=SNACKS.filter(f=>f.must&&!f.sofia);
   const other=SNACKS.filter(f=>!f.must&&!f.sofia);
   const sofia=SNACKS.filter(f=>f.sofia);
-  document.getElementById('snacks-must').innerHTML=[...must,...(customs.snacks_must||[])].map(snackCard).join('');
-  document.getElementById('snacks-other').innerHTML=[...other,...(customs.snacks||[])].map(snackCard).join('');
-  document.getElementById('snacks-sofia').innerHTML=sofia.map(snackCard).join('');
+  setHtml('snacks-must',[...must,...(customs.snacks_must||[])].map(snackCard).join(''));
+  setHtml('snacks-other',[...other,...(customs.snacks||[])].map(snackCard).join(''));
+  setHtml('snacks-sofia',sofia.map(snackCard).join(''));
 }
 
 function buildSchedule(){
@@ -928,24 +945,27 @@ function buildTips(){
 // ══════════════════════════════════════════════════════════════
 function filterRides(filter,btn){
   document.querySelectorAll('#tab-rides .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
-  document.querySelectorAll('#tab-rides .card[data-tags]').forEach(c=>{
-    c.style.display=filter==='all'||c.getAttribute('data-tags').includes(filter)?'':'none';
+  document.querySelectorAll('#tab-rides .card').forEach(c=>{
+    const tags=c.getAttribute('data-tags')||'';
+    if(filter==='all'){c.style.display='';}
+    else if(c.classList.contains('closed-card')){c.style.display='none';}
+    else{c.style.display=tags.includes(filter)?'':'none';}
   });
   document.querySelectorAll('#tab-rides .sec-sm').forEach(s=>s.style.display=filter==='all'?'':'none');
-  if(filter!=='all')document.querySelectorAll('#tab-rides .closed-card').forEach(c=>c.style.display='none');
 }
 function filterShows(filter,btn){
   document.querySelectorAll('#tab-shows .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
-  document.querySelectorAll('#tab-shows .card[data-stags]').forEach(c=>{
-    c.style.display=filter==='all'||c.getAttribute('data-stags').includes(filter)?'':'none';
+  document.querySelectorAll('#tab-shows .card').forEach(c=>{
+    const tags=c.getAttribute('data-stags')||'';
+    c.style.display=filter==='all'||tags.includes(filter)?'':'none';
   });
 }
 
 // ══════════════════════════════════════════════════════════════
 // ADD CUSTOM
 // ══════════════════════════════════════════════════════════════
-function openAdd(tab){document.getElementById('add-'+tab).classList.add('open');}
-function closeAdd(tab){document.getElementById('add-'+tab).classList.remove('open');}
+function openAdd(tab){const el=document.getElementById('add-'+tab);if(el)el.classList.add('open');}
+function closeAdd(tab){const el=document.getElementById('add-'+tab);if(el)el.classList.remove('open');}
 function saveCustom(tab){
   const n=document.getElementById(`af-${tab}-name`),d=document.getElementById(`af-${tab}-desc`);
   const name=(n&&n.value.trim())||'Custom Item',desc=(d&&d.value.trim())||'';
@@ -978,15 +998,18 @@ function buildMem(){
 // ORACLE
 // ══════════════════════════════════════════════════════════════
 function askOracle(type){
-  const r=document.getElementById('or-result');r.style.opacity='.4';r.textContent='🔮 Thinking... 💫';
+  const r=document.getElementById('or-result');if(!r)return;
+  r.style.opacity='.4';r.textContent='🔮 Thinking... 💫';
   setTimeout(()=>{
     const p=type==='eat'?ORACLE_FOOD:type==='ride'?ORACLE_RIDES:[...ORACLE_RIDES,...ORACLE_FOOD,...ORACLE_OTHER];
     r.textContent=p[Math.floor(Math.random()*p.length)];r.style.opacity='1';
   },900);
 }
 function tiebreak(){
-  const o1=document.getElementById('tb1').value.trim(),o2=document.getElementById('tb2').value.trim();
-  const r=document.getElementById('tb-result');r.style.display='flex';
+  const e1=document.getElementById('tb1'),e2=document.getElementById('tb2'),r=document.getElementById('tb-result');
+  if(!e1||!e2||!r)return;
+  const o1=e1.value.trim(),o2=e2.value.trim();
+  r.style.display='flex';
   if(!o1||!o2){r.textContent='✏️ Fill both options first, Zoe! 👑';return;}
   const w=Math.random()<.5?o1:o2;
   const rx=['👑 QUEEN ZOE DECREES:','⚡ THE ROYAL VERDICT:','🔮 THE ORACLE CHOOSES:','✨ ZOE\'S DESTINY IS:'];
@@ -1008,18 +1031,27 @@ function showTab(id){
 // ══════════════════════════════════════════════════════════════
 // STARS & INIT
 // ══════════════════════════════════════════════════════════════
-for(let i=0;i<55;i++){
-  const s=document.createElement('div');s.className='star';const sz=Math.random()*2.2+.7;
-  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*4+2).toFixed(1)}s;--dl:-${(Math.random()*5).toFixed(1)}s;`;
-  document.querySelector('.bg').appendChild(s);
-}
+try{
+  for(let i=0;i<55;i++){
+    const s=document.createElement('div');s.className='star';const sz=Math.random()*2.2+.7;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*4+2).toFixed(1)}s;--dl:-${(Math.random()*5).toFixed(1)}s;`;
+    document.querySelector('.bg').appendChild(s);
+  }
+}catch(e){}
 
 function init(){
-  buildRides();buildShows();buildSnacks();buildSchedule();buildTips();
-  rebuildChecklist();
+  try{buildRides();}catch(e){console.warn('buildRides:',e);}
+  try{buildShows();}catch(e){console.warn('buildShows:',e);}
+  try{buildSnacks();}catch(e){console.warn('buildSnacks:',e);}
+  try{buildSchedule();}catch(e){console.warn('buildSchedule:',e);}
+  try{buildTips();}catch(e){console.warn('buildTips:',e);}
+  try{rebuildChecklist();}catch(e){console.warn('rebuildChecklist:',e);}
   // Restore notes
-  ['n-zoe','n-sched','n-rides','n-shows','n-food','n-journal','n-tips'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=gn(id);});
-  applyStates();updateProgress();
+  ['n-zoe','n-sched','n-rides','n-shows','n-food','n-journal','n-tips'].forEach(id=>{
+    try{const el=document.getElementById(id);if(el)el.value=gn(id);}catch(e){}
+  });
+  try{applyStates();}catch(e){console.warn('applyStates:',e);}
+  try{updateProgress();}catch(e){console.warn('updateProgress:',e);}
 }
 init();
 </script>
